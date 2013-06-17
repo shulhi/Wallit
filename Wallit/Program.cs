@@ -13,8 +13,11 @@ namespace Wallit
     {
         static void Main(string[] args)
         {
-            var downloader = new ImageDownloader();
-            downloader.DownloadImage("http://i.imgur.com/Y0qNmtp.jpg", @"F:\reddit.jpg");
+            //var downloader = new ImageDownloader();
+            //downloader.DownloadImage("http://i.imgur.com/Y0qNmtp.jpg", @"F:\reddit.jpg");
+
+            var reddit = new Reddit();
+            reddit.GetAllWallpapers();
 
             Console.ReadLine();
         }
