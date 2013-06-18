@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
@@ -13,11 +14,7 @@ namespace Wallit
     {
         static void Main(string[] args)
         {
-            //var downloader = new ImageDownloader();
-            //downloader.DownloadImage("http://i.imgur.com/Y0qNmtp.jpg", @"F:\reddit.jpg");
-
-            var reddit = new Reddit();
-            reddit.GetAllWallpapers();
+            
 
             Console.ReadLine();
         }

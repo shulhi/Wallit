@@ -11,29 +11,26 @@ namespace Wallit.Downloader
 {
     public class Reddit
     {
-        private HttpClient _client;
-
-        public List<Wallpaper> Wallpapers;
+        private readonly HttpClient _client;
 
         public Reddit()
         {
             _client = new HttpClient();
         }
 
-        public async Task<List<Wallpaper>>  GetAllWallpapers()
+        public async Task<List<Wallpaper>> GetAllWallpapers(params string[] subreddits)
         {
-            Wallpapers = new List<Wallpaper>();
+            var wps = new List<Wallpaper>();
 
-            var json = await DownloadJson("http://www.reddit.com/r/wallpaper.json");
+            var json = await DownloadJson("http://www.reddit.com/r/wallpaper+wallpapers/new/.json");
             var o = JObject.Parse(json);
 
             //var wps = o["data"]["children"].Select(m => (string) m.SelectToken("data.url")).ToList();
-            //Console.WriteLine(wps.Count);
 
-            Wallpapers = (from p in o["data"]["children"]
+            wps = (from p in o["data"]["children"]
                       select new Wallpaper {Title = (string)p.SelectToken("data.title"), Uri = (string)p.SelectToken("data.url")}).ToList();
 
-            return Wallpapers;
+            return wps;
         }
 
         private async Task<string> DownloadJson(string uri)

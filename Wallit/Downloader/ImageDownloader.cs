@@ -11,17 +11,19 @@ namespace Wallit.Downloader
     public class ImageDownloader
     {
         private HttpClient _client;
+        public string SavedImagePath { get; set; }
 
-        public ImageDownloader()
+        public ImageDownloader(string savedImagePath)
         {
             _client = new HttpClient();
+            SavedImagePath = savedImagePath;
         }
 
-        public async Task DownloadImage(string uri, string saveToPath)
+        public async Task SaveImage(string uri)
         {
             var stream = await _client.GetStreamAsync(uri);
-
-            using (var fileStream = File.Create(saveToPath))
+            
+            using (var fileStream = File.Create(SavedImagePath))
             {
                 await stream.CopyToAsync(fileStream);
             }
