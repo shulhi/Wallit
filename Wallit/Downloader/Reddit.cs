@@ -18,7 +18,7 @@ namespace Wallit.Downloader
             _client = new HttpClient();
         }
 
-        public async Task<List<Wallpaper>> GetAllWallpapers(params string[] subreddits)
+        public async Task<List<Wallpaper>> GetAllWallpapers()
         {
             var wps = new List<Wallpaper>();
 

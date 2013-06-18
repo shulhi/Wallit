@@ -22,8 +22,9 @@ namespace Wallit.Downloader
         public async Task SaveImage(string uri)
         {
             var stream = await _client.GetStreamAsync(uri);
-            
-            using (var fileStream = File.Create(SavedImagePath))
+            var splode = uri.TrimEnd('/').Split('/');
+
+            using (var fileStream = File.Create(SavedImagePath + "\\" + splode.Last()))
             {
                 await stream.CopyToAsync(fileStream);
             }

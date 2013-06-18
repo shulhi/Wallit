@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A7E41727-4E82-423C-A8F4-65F43C6C43AA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wallit</RootNamespace>
     <AssemblyName>Wallit</AssemblyName>
@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Downloader\DesktopManager.cs" />
     <Compile Include="Downloader\ImageDownloader.cs" />
     <Compile Include="Downloader\Reddit.cs" />
     <Compile Include="Models\Wallpaper.cs" />
