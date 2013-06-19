@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Timers;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
@@ -14,11 +15,12 @@ namespace Wallit
     {
         static void Main(string[] args)
         {
+            SettingsManager.ReadSettings();
             var timer = new Timer();
 
             timer.Enabled = true;
             timer.AutoReset = true;
-            timer.Interval = 240000;
+            timer.Interval = SettingsManager.Interval;
             timer.Elapsed += timer_Elapsed;
 
             timer_Elapsed(timer, null);
@@ -31,14 +33,14 @@ namespace Wallit
         {
             var reddit = new Reddit();
             var wps = await reddit.GetAllWallpapers();
-            var path = @"F:\";
+            var path = SettingsManager.SavedPath;
             var isNotSet = true;
             var counter = 0;
             var downloader = new ImageDownloader(path);
 
             while (isNotSet)
             {
-                if (downloader.TrySaveImage(wps[counter].Uri))
+                if (downloader.TrySaveImage(wps[counter].Uri) && Regex.IsMatch(wps[counter].Uri, "(.jpg|.jpeg|.png|.bmp)"))
                 {
                     await downloader.SaveImageAsync(wps[counter].Uri);
                     Console.WriteLine("{0} downloaded at {1}", wps[counter].Uri, DateTime.Now);
