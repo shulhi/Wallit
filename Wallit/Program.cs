@@ -18,10 +18,10 @@ namespace Wallit
 
             timer.Enabled = true;
             timer.AutoReset = true;
-            timer.Interval = 900000;
+            timer.Interval = 240000;
             timer.Elapsed += timer_Elapsed;
 
-            //timer_Elapsed();
+            timer_Elapsed(timer, null);
 
             Console.ReadLine();
         }
@@ -31,11 +31,25 @@ namespace Wallit
         {
             var reddit = new Reddit();
             var wps = await reddit.GetAllWallpapers();
+            var path = @"F:\";
+            var isNotSet = true;
+            var counter = 0;
+            var downloader = new ImageDownloader(path);
 
-            var downloader = new ImageDownloader(@"F:\");
-            await downloader.SaveImage(wps[0].Uri);
+            while (isNotSet)
+            {
+                if (downloader.TrySaveImage(wps[counter].Uri))
+                {
+                    await downloader.SaveImageAsync(wps[counter].Uri);
+                    Console.WriteLine("{0} downloaded at {1}", wps[counter].Uri, DateTime.Now);
 
-            Console.WriteLine("Image downloaded");
+                    var dm = new DesktopManager();
+                    dm.SetWallpaper(path + wps[counter].Uri.TrimEnd('/').Split('/').Last());
+
+                    isNotSet = false;
+                }
+                counter++;
+            }
         }
     }
 }

@@ -19,15 +19,27 @@ namespace Wallit.Downloader
             SavedImagePath = savedImagePath;
         }
 
-        public async Task SaveImage(string uri)
+        public async Task SaveImageAsync(string uri)
         {
             var stream = await _client.GetStreamAsync(uri);
-            var splode = uri.TrimEnd('/').Split('/');
+            var image = uri.TrimEnd('/').Split('/').Last();
 
-            using (var fileStream = File.Create(SavedImagePath + "\\" + splode.Last()))
+            using (var fileStream = File.Create(SavedImagePath + "\\" + image))
             {
                 await stream.CopyToAsync(fileStream);
             }
+        }
+
+        public bool TrySaveImage(string uri)
+        {
+            var splode = uri.TrimEnd('/').Split('/');
+
+            if (File.Exists(SavedImagePath + "\\" + splode.Last()))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
